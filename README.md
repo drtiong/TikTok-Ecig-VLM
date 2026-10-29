@@ -42,22 +42,21 @@ To support reproducibility, this repository provides the study's codebook, model
     └── 📄 sample_discrepant_cases_for_analysis.csv
 
 ## Prerequisites & Setup
-1. Clone the repository and navigate to the directory:
+**1. Clone the repository and navigate to the directory:**
+```bash
+git clone https://github.com/yourusername/TikTok-Ecig-VLM.git
+cd TikTok-Ecig-VLM
 
-Bash
-git clone https://github.com/yourusername/e-cigarette-tiktok-surveillance.git
-cd e-cigarette-tiktok-surveillance
-
-2. Install dependencies:
+**2. Install dependencies:**
 The pipeline requires Python 3.9+ and the official Google GenAI SDK.
 
-Bash
+```bash
 pip install -r requirements.txt
 
-3. Configure API Credentials:
+**3. Configure API Credentials:**
 Rename .env.example to .env and insert your active Google Gemini API key.
 
-Plaintext
+```text
 GEMINI_API_KEY="your_api_key_here"
 
 ## Pipeline Execution
