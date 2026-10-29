@@ -1,0 +1,6 @@
+Strategy Domain,TN,FP,FN,TP,Sensitivity,Sens_Lower_95CI,Sens_Upper_95CI,Specificity,Spec_Lower_95CI,Spec_Upper_95CI,Precision,F1-Score
+Product Placement,7,2,1,390,0.997,0.986,1,0.778,0.453,0.937,0.995,0.996
+Youth Appeal,32,6,55,307,0.848,0.807,0.881,0.842,0.696,0.926,0.981,0.91
+Viral Marketing,284,12,33,71,0.683,0.588,0.764,0.959,0.93,0.977,0.855,0.759
+Event Sponsorship,352,1,4,43,0.915,0.801,0.966,0.997,0.984,0.999,0.977,0.945
+Localization,337,6,24,33,0.579,0.45,0.698,0.983,0.962,0.992,0.846,0.688
