@@ -1,0 +1,2 @@
+Filename,Failed Strategy,Human Gold Standard,Model Prediction,Error Classification,Model Reasoning Context
+1,Youth Appeal,YES,NO,False Negative (Type II),"Based on the visual evidence, the actor appears to be over 25 years old. The video does not display animated characters, supernatural themes, vibrant product imagery, or clear rewarding appeals that target youth according to the codebook."
