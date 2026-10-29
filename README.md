@@ -45,8 +45,8 @@ To support reproducibility, this repository provides the study's codebook, model
 ## Prerequisites & Setup
 **1. Clone the repository and navigate to the directory:**
 ```bash
-git clone https://github.com/yourusername/e-cigarette-tiktok-surveillance.git
-cd e-cigarette-tiktok-surveillance
+git clone https://github.com/yourusername/TikTok-Ecig-VLM.git
+cd TikTok-Ecig-VLM
 ```
 
 **2. Install dependencies:**
@@ -69,7 +69,7 @@ To replicate the methodology, run the scripts in the src/ directory in the follo
 01_frame_extraction.py
 Executes a hybrid temporal sampling strategy tailored for algorithmic short-form video. It forces frame extraction at 0.5s, 1.5s, and 2.5s to capture rapid visual hooks (e.g., Stitches, quick brand flashes), followed by evenly spaced sampling to capture the narrative arc, strictly capping at 15 RGB frames (720x1280 resolution) to optimize API payloads.
 
-02_pdf_caching.py
+02_codebook_pdf_caching.py
 Uploads the final_codebook.pdf from the codebook/ directory and bakes it into the Gemini 3.1 Pro model cache alongside the system instruction. This prevents redundant token processing and ensures strict adherence to the operational definitions during batch inference.
 
 03_gemini_inference.py
