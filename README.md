@@ -67,13 +67,17 @@ GEMINI_API_KEY="your_api_key_here"
 To replicate the methodology, run the scripts in the src/ directory in the following chronological order:
 
 01_frame_extraction.py
+
 Executes a hybrid temporal sampling strategy tailored for algorithmic short-form video. It forces frame extraction at 0.5s, 1.5s, and 2.5s to capture rapid visual hooks (e.g., Stitches, quick brand flashes), followed by evenly spaced sampling to capture the narrative arc, strictly capping at 15 RGB frames (720x1280 resolution) to optimize API payloads.
 
 02_codebook_pdf_caching.py
+
 Uploads the final_codebook.pdf from the codebook/ directory and bakes it into the Gemini 3.1 Pro model cache alongside the system instruction. This prevents redundant token processing and ensures strict adherence to the operational definitions during batch inference.
 
 03_gemini_inference.py
+
 Ingests the extracted frames from the outputs/frame_cache/ directory, calls the cached LLM, and forces a structured JSON output (binary yes/no classification with reasoning) for the five indirect promotion strategies. Outputs the raw diagnostic decisions to a CSV log.
 
 04_model_performance_analysis.py
+
 Merges the synthetic ground truth data with the Gemini inference outputs. It calculates the diagnostic performance metrics (Sensitivity, Specificity, Precision, F1-Score) and generates 95% Confidence Intervals using the Wilson Score Interval method. Mismatches (False Positives and False Negatives) are isolated and exported for qualitative discrepancy analysis.
