@@ -1,97 +1,114 @@
 # TikTok-Ecig-VLM
-This repository contains the computational methodology, data processing pipeline, and statistical validation scripts for the Doctor of Public Health (DrPH) thesis: "Analyzing E-Cigarette Indirect Promotion Strategies in Malaysia’s TikTok Videos."
 
-The study develops a hybrid human-AI research framework, utilizing manual content analysis as a reference standard to validate the diagnostic performance of the Gemini 3.1 Pro vision-language model in identifying five indirect promotion strategies: product placement, youth appeal, viral marketing, localization, and event sponsorship.
+Code, prompts and analysis scripts for the Doctor of Public Health (DrPH) thesis "Analyzing E-Cigarette Indirect Promotion Strategies in Malaysia's TikTok Videos" (Universiti Sains Malaysia).
+
+The study evaluates whether the vision-language model Gemini 3.1 Pro (`gemini-3.1-pro-preview`) can classify five indirect e-cigarette promotion strategies (product placement, youth appeal, viral marketing, localization and event sponsorship) from sampled video frames, using manual content analysis with a structured codebook as the reference standard. The model is validated on 400 human-annotated videos and then deployed on 787 further videos, with misclassification-adjusted prevalence estimates and targeted human verification of flagged videos.
+
+Manuscript: [add citation / DOI / preprint link when available]
 
 ## Data availability
 
-The raw video dataset analyzed in this study is not publicly available because the videos were collected from TikTok and contain third-party audiovisual content, including potentially identifiable individuals. Redistribution of the original video files may raise privacy, copyright, and platform-governance considerations. In addition, conventional de-identification cannot reliably eliminate the possibility of re-identification from audiovisual content.
+The raw videos are **not** shared. They were collected from TikTok and contain third-party audiovisual content, including potentially identifiable individuals, so redistribution raises privacy, copyright and platform-governance concerns, and conventional de-identification cannot reliably remove the risk of re-identification from audiovisual content.
 
-To support reproducibility, this repository provides the study's codebook, model prompts, data-processing procedures, analytical code, synthetic dummy data and sample outputs. These materials allow the analytical workflow and statistical analyses to be examined and reproduced without redistributing the underlying third-party video content.
+This repository provides two kinds of data:
 
-## Repository Structure
+| Tier | Location | Content | Purpose |
+|---|---|---|---|
+| 1. Synthetic pipeline test | `data/`, `output/` | A royalty-free dummy video, synthetic human labels and sample outputs | Check that the Python pipeline (`src/`) runs end to end. Results are **not** the study results. |
+| 2. Study label-level data | `analysis/data/` | De-identified labels only (no video, frames or URLs): pseudonymised creator ID, human reference labels and Gemini labels | Reproduce the statistical analysis and manuscript tables in `analysis/`. |
+
+Creator identifiers in Tier 2 are pseudonymised. The pseudonymisation key is not shared.
+
+## Repository structure
+
 ```text
-📁 TikTok-Ecig-VLM
+TikTok-Ecig-VLM/
+├── README.md
+├── LICENSE                          # add (see "License")
+├── CITATION.cff                     # add
+├── requirements.txt                 # Python dependencies
+├── .env.example                     # copy to .env and add your API key
+├── .gitignore
 │
-├── 📄 README.md
-├── 📄 requirements.txt
-├── 📄 .env.example
+├── codebook/
+│   └── final_codebook.pdf           # operational criteria; uploaded to the Gemini cache
 │
-├── 📁 codebook/                    # Operational criteria for measurement
-│   └── 📄 final_codebook.pdf    # Uploaded to Gemini cache for inference
+├── prompt/
+│   ├── system_instruction.txt
+│   └── user_prompt_schema.json
 │
-├── 📁 prompt/                     # Static prompt configurations
-│   ├── 📄 system_instruction.txt
-│   └── 📄 user_prompt_schema.json
+├── src/                             # Stage 1: Python pipeline (run in order)
+│   ├── 01_frame_extraction.py
+│   ├── 02_pdf_caching.py
+│   └── 03_gemini_inference.py
 │
-├── 📁 src/                         # Execution pipeline (Run in chronological order)
-│   ├── 📄 01_frame_extraction.py
-│   ├── 📄 02_pdf_caching.py
-│   ├── 📄 03_gemini_inference.py
-│   └── 📄 04_model_performance_analysis.py
+├── data/                            # Tier 1: synthetic inputs only
+│   ├── test_run/
+│   │   └── dummy_video.mp4
+│   └── sample_ground_truth.csv
 │
-├── 📁 data/                        # Synthetic inputs for pipeline testing
-│   ├── 📁 test_run/                
-│   │   └── 📄 dummy_video.mp4      # Royalty-free sample for extraction testing
-│   └── 📄 sample_ground_truth.csv  # Synthetic human-annotated baseline
+├── output/                          # Tier 1: generated sample outputs
+│   ├── frame_cache/                 # created by 01_frame_extraction.py
+│   ├── sample_gemini_results.csv
+│   ├── sample_diagnostic_performance_report.csv
+│   └── sample_discrepant_cases_for_analysis.csv
 │
-└── 📁 output/                     # Generated outputs and analytics
-│    ├── 📁 frame_cache/             # Auto-generated by 01_frame_extraction
-│    ├── 📄 sample_gemini_results.csv
-│    └── 📄 sample_diagnostic_performance_report.csv
-│    └── 📄 sample_discrepant_cases_for_analysis.csv
-│
-├── 📁 classification_performance_analysis                      # R statistical analysis
-│   ├── 📄README.md                  
-│   ├── 📄install_packages.R
-│   └── 📁R/
-│       ├── 📄utils.R
-│       ├── 📄validation_metrics.R
-│       ├── 📄majority_baseline_comparison.R
-│       ├── 📄deployment_bayesian_adjustment.R
-│       ├── 📄deployment_clustering.R
-│       └── 📄targeted_verification.R
-└── 📁data/                          
-        ├── 📄validation_400.csv
-        ├── 📄double_coding_400  
-        └── 📄deployment_787.csv        
- 
+└── analysis/                        # Stage 2: R statistical analysis (see analysis/README.md)
+    ├── README.md
+    ├── R/
+    └── data/                        # Tier 2: study label-level CSVs
 ```
 
-## Prerequisites & Setup
-**1. Clone the repository and navigate to the directory:**
+## Setup
+
+**1. Clone the repository**
+
 ```bash
-git clone https://github.com/yourusername/TikTok-Ecig-VLM.git
+git clone https://github.com/drtiong/TikTok-Ecig-VLM.git
 cd TikTok-Ecig-VLM
 ```
 
-**2. Install dependencies:**
-The pipeline requires Python 3.9+ and the official Google GenAI SDK.
+**2. Python (Stage 1).** Python 3.9 or later and the Google GenAI SDK.
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**3. Configure API Credentials:**
-Rename .env.example to .env and insert your active Google Gemini API key.
+**3. API credentials.** Copy `.env.example` to `.env` and add your Gemini API key. Never commit `.env`.
 
+```bash
+cp .env.example .env
+```
 ```text
 GEMINI_API_KEY="your_api_key_here"
 ```
 
-## Pipeline Execution
-To replicate the methodology, run the scripts in the src/ directory in the following chronological order:
+**4. R (Stage 2).** R and JAGS are needed only for `analysis/`. Versions used: R (version 4.6.1), JAGS (version 4.3.2). See `analysis/README.md`.
 
-01_frame_extraction.py
+## Stage 1: Python pipeline
 
-Executes a hybrid temporal sampling strategy tailored for algorithmic short-form video. It forces frame extraction at 0.5s, 1.5s, and 2.5s to capture rapid visual hooks (e.g., Stitches, quick brand flashes), followed by evenly spaced sampling to capture the narrative arc, strictly capping at 15 RGB frames (720x1280 resolution) to optimize API payloads.
+Run from the repository root, in order.
+
+| Step | Script | Input | Output |
+|---|---|---|---|
+| 1 | `src/01_frame_extraction.py` | videos (e.g. `data/test_run/`) | `output/frame_cache/` |
+| 2 | `src/02_pdf_caching.py` | `codebook/final_codebook.pdf`, `prompt/system_instruction.txt` | Gemini context cache |
+| 3 | `src/03_gemini_inference.py` | frames in `output/frame_cache/`, `prompt/user_prompt_schema.json` | `output/sample_gemini_results.csv` |
+
+**01_frame_extraction.py.** Hybrid temporal sampling for short-form video. Frames are always taken at 0.5 s, 1.5 s and 2.5 s to capture rapid visual hooks (for example stitches and quick brand flashes). Remaining frames are spaced at mathematically even intervals across the entire duration of the video. The total is capped at 15 RGB frames per video (720 × 1280) to limit API payload size. Frames are therefore sparser in longer videos.
+
+**02_pdf_caching.py.** Uploads `codebook/final_codebook.pdf` and stores it in the Gemini model cache together with the system instruction. This avoids reprocessing the codebook for every video and keeps the operational definitions fixed during batch inference.
+
+**03_gemini_inference.py.** Reads the extracted frames from `output/frame_cache/`, calls the cached model and requests structured JSON output for the five strategies. [CONFIRM and edit: the manuscript states that the schema allowed an "unsure" option for each strategy; state here the permitted values and how "unsure" is handled downstream, because the R analysis expects yes/no.] Raw decisions are written to a CSV log.
 
 
-02_codebook_pdf_caching.py
+Synthetic data verify that the code runs. They will not reproduce the manuscript numbers.
 
-Uploads the final_codebook.pdf from the codebook/ directory and bakes it into the Gemini 3.1 Pro model cache alongside the system instruction. This prevents redundant token processing and ensures strict adherence to the operational definitions during batch inference.
+## Stage 2: Statistical analysis (R)
 
+Validation metrics, majority-class baseline, creator clustering, Bayesian misclassification adjustment and targeted verification are in [`analysis/`](analysis/README.md). The README there lists the scripts, inputs and the manuscript table or figure each script produces.
 
-03_gemini_inference.py
+## Responsible use
 
-Ingests the extracted frames from the outputs/frame_cache/ directory, calls the cached LLM, and forces a structured JSON output (binary yes/no classification with reasoning) for the five indirect promotion strategies. Outputs the raw diagnostic decisions to a CSV log.
+This is research code. Model flags are intended to prioritise videos for human review, not to make enforcement decisions on their own. Results apply to Gemini 3.1 Pro with this codebook and prompt, on Malaysian TikTok videos.
+
