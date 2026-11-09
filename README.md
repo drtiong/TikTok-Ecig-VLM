@@ -53,7 +53,7 @@ TikTok-Ecig-VLM/
 │   ├── sample_diagnostic_performance_report.csv
 │   └── sample_discrepant_cases_for_analysis.csv
 │
-└── analysis/                        # Stage 2: R statistical analysis (see analysis/README.md)
+└── classification_performance_analysis/                        # Stage 2: R statistical analysis (see analysis/README.md)
     ├── README.md
     ├── R/
     └── data/                        # Tier 2: study label-level CSVs
@@ -106,7 +106,7 @@ Synthetic data verify that the code runs. They will not reproduce the manuscript
 
 ## Stage 2: Statistical analysis (R)
 
-Validation metrics, majority-class baseline, creator clustering, Bayesian misclassification adjustment and targeted verification are in [`analysis/`](analysis/README.md). The README there lists the scripts, inputs and the manuscript table or figure each script produces.
+Validation metrics, majority-class baseline, creator clustering, Bayesian misclassification adjustment and targeted verification are in [`classification_performance_analysis/`](analysis/README_analysis.md). The README there lists the scripts, inputs and the manuscript table or figure each script produces.
 
 ## Responsible use
 
