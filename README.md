@@ -41,7 +41,7 @@ To support reproducibility, this repository provides the study's codebook, model
 │    └── 📄 sample_diagnostic_performance_report.csv
 │    └── 📄 sample_discrepant_cases_for_analysis.csv
 │
-├── 📁 classfication_performance_analysis                      # R statistical analysis
+├── 📁 classification_performance_analysis                      # R statistical analysis
 │   ├── 📄README.md                  
 │   ├── 📄install_packages.R
 │   └── 📁R/
@@ -95,8 +95,3 @@ Uploads the final_codebook.pdf from the codebook/ directory and bakes it into th
 03_gemini_inference.py
 
 Ingests the extracted frames from the outputs/frame_cache/ directory, calls the cached LLM, and forces a structured JSON output (binary yes/no classification with reasoning) for the five indirect promotion strategies. Outputs the raw diagnostic decisions to a CSV log.
-
-
-04_model_performance_analysis.py
-
-Merges the synthetic ground truth data with the Gemini inference outputs. It calculates the diagnostic performance metrics (Sensitivity, Specificity, Precision, F1-Score) and generates 95% Confidence Intervals using the Wilson Score Interval method. Mismatches (False Positives and False Negatives) are isolated and exported for qualitative discrepancy analysis.
