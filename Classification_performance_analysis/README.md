@@ -34,7 +34,7 @@ or one at a time, for example
 
 | File | Columns |
 |---|---|
-| `data/validation_400.csv` | `filename`, `creator_id` (or `creator` URL), then for each strategy `<strategy>` (human reference) and `<strategy>_gemini`, values yes/no |
+| `data/validation_400.csv` | `filename`, `creator_id` , then for each strategy `<strategy>` (human reference) and `<strategy>_gemini`, values yes/no |
 | `data/deployment_787.csv` | `filename`, `creator_id`, `<strategy>_gemini` for all five strategies; `<strategy>` human labels only for the verified videos (blank otherwise). Rows without Gemini labels are dropped |
 | `data/double_coding_400.csv` (optional) | `filename`, `creator_id`, `<strategy>_coder1`, `<strategy>_coder2` (pre-consensus labels) |
 
